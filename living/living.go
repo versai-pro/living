@@ -201,14 +201,14 @@ func (l *Living) EyeHeight() float64 {
 }
 
 func (l *Living) NameTag() string {
-  return l.data.Name
+	return l.data.Name
 }
 
 func (l *Living) SetNameTag(s string) {
-  l.data.Name = s
-  for _, v := range l.tx.Viewers(l.Position()) {
-    v.ViewEntityState(l)
-  }
+	l.data.Name = s
+	for _, v := range l.tx.Viewers(l.Position()) {
+		v.ViewEntityState(l)
+	}
 }
 
 // Move moves the player from one position to another in the world, by adding the delta passed to the current
@@ -279,9 +279,9 @@ func (l *Living) Extinguish() {
 }
 
 // Tick ticks the entity, performing actions such as checking if the player is still breaking a block.
-func (l *Living) Tick(_ *world.Tx, current int64) {
+func (l *Living) Tick(tx *world.Tx, current int64) {
 	ctx := event.C(l)
-	l.handler.HandleTick(ctx)
+	l.handler.HandleTick(ctx, tx)
 
 	if ctx.Cancelled() || l.Dead() {
 		return
